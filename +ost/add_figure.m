@@ -12,9 +12,13 @@ cmd = ost.get_last_command; % log last command
 % get project file name (needs to be set by user using ost.project_file)
 ds = ost.read_project;
 
+% add figure details
 ds.figures.(name).environment   = 'matlab';
 ds.figures.(name).cmd           = cmd;
 ds.figures.(name).datetime      = datestr(now);         % tag with current time
+
+% update figure number
+ds.project.num_figures          = ds.project.num_figures + 1;
 
 % save updated data
 ost.save_project(ds);

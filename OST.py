@@ -5,45 +5,62 @@
 
 # Load required python libraries
 import json
-from OST_MatlabEngine import OST_MatlabEngine
+import os
+from datetime import datetime
+from ost_platforms import ost_platforms
 
 
-class OST:
-    proj_file_loc = []          # location of the ost project file
+class ost:
+    proj_file     = []          # location of the ost project file
     ds            = []          # contents of the project 
-    matlabengine  = []          # handle to matlab engine
 
     # constructor
     def __init__(self):
         """Constructor purposely left empty"""
-        self.matlabengine = OST_MatlabEngine()
+        self.platforms = ost_platforms()
+
+    # initialize project repository 
+    def init(self, name):
+        now     = datetime.now()
+        dstr    = now.strftime("%d-%b-%Y %X")
+        d       = {'project': {'name': name, 'num_figures': 0, 'num_stats': 0, 'datetime': dstr}}
+
+        fname   = os.getcwd() + '/' + name + '.ost'
+
+        # write default data
+        with open(fname, 'w') as f:
+            json.dump(d, f)
+        f.close()
+
+        # load project back in
+        self.load(fname)
 
     # initialize experiment with defaults provided in yaml file
-    def init(self, filepath):
+    def load(self, filepath):
         # load the contents of the project (structure is a json file)
         fid                 = open(filepath, 'r')
         self.ds             = json.load(fid)
         fid.close()
 
         # save file path location
-        self.proj_file_loc  = filepath
-
-    # initialize matlab engine
-    def init_matlabengine(self):
-        self.matlabengine.init()
+        self.proj_file  = filepath
 
     # initialize data manager and provide format to expect data in
     def print_project_details(self):
+        self.load(self.proj_file)
+
         print "Project name\t: " + str(self.ds['project']['name'])
+        print "Date created\t: " + str(self.ds['project']['datetime'])
         print "Total figures\t: " + str(self.ds['project']['num_figures'])
         print "Total stats\t: " + str(self.ds['project']['num_stats'])
 
     # plot figure with given name
     def plot_figure(self, name):
+        self.load(self.proj_file)
+
         env = self.ds['figures'][name]['environment']
         cmd = self.ds['figures'][name]['cmd']
 
-        if env == 'matlab':
-            self.init_matlabengine()
-            self.matlabengine.execute(cmd)
+        self.platforms.execute(env,cmd)
+
 
