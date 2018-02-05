@@ -5,7 +5,7 @@ This toolbox provides general purposes functions within python to manage data an
 
 ### Installing JSONLab
 
-Project settings are stored in a JSON text file, which makes it simple to track changes over the life-time of the project. Unfortunately MATLAB does a poor job of read/writing from JSON files. Therefore this toolbox uses a third-party library provided for accesses JSON files. The library can be obtained through [fangg's Github page](https://github.com/fangq/jsonlab).
+Project settings are stored in a JSON text file, which makes it simple to track changes over the life-time of the project. Unfortunately MATLAB does a poor job of read/writing from JSON files. Therefore this toolbox uses a third-party library for accessing JSON files. The library can be obtained through [fangg's Github page](https://github.com/fangq/jsonlab).
 
 ### Using the Matlab engine within Python 
 
