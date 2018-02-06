@@ -7,5 +7,5 @@ function save_project(ds_updated)
 % Author
 %   Naveed Ejaz (ejaz.naveed@gmail.com)
 
-opt.FileName = ost.project_file;        % get project file
+opt.FileName = getenv('OST_CONTAINER');        % get project file
 savejson('',ds_updated,opt);

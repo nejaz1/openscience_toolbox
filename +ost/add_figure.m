@@ -9,8 +9,8 @@ function add_figure(name)
 
 cmd = ost.get_last_command; % log last command
 
-% get project file name (needs to be set by user using ost.project_file)
-ds = ost.read_project;
+% get container file name (needs to be set by user using ost.project_file)
+ds 	= loadjson(getenv('OST_CONTAINER'));
 
 % add figure details
 ds.figures.(name).environment   = 'matlab';
