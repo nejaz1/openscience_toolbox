@@ -45,17 +45,53 @@ class ost:
         # save file path location
         self.proj_file  = filepath
 
-    # initialize data manager and provide format to expect data in
-    def print_project_details(self):
+    # print current state of project container (overview only)
+    def print_project(self):
         self.load(self.proj_file)
 
         print "Project name\t: " + str(self.ds['project']['name'])
         print "Date created\t: " + str(self.ds['project']['datetime'])
         print "Total figures\t: " + str(self.ds['project']['num_figures'])
-        print "Total stats\t: " + str(self.ds['project']['num_stats'])
+        print "Total stats\t: " + str(self.ds['project']['num_stats']) + "\n"
 
-    # plot figure with given name
-    def plot_figure(self, name):
+    # print list of figures in project container
+    def figure_list(self):
+        self.load(self.proj_file)
+
+        # get nested dictionary for figures
+        #   - list all available figures
+        if self.ds['project']['num_figures']>0:
+            f   = self.ds['figures'].keys()
+
+            for i in range(len(f)):
+                s   = str(f[i])                 # get ith figure name
+                print "Figure name\t:" + s
+                print "Date created\t:" + self.ds['figures'][s]['datetime']
+                print "Environment\t:" + self.ds['figures'][s]['environment']
+                print "Command\t\t:" + self.ds['figures'][s]['cmd'] + "\n"
+        else:
+            print "No figures added to container"
+
+    # print list of stats in project container
+    def stats_list(self):
+        self.load(self.proj_file)
+
+        # get nested dictionary for stats
+        #   - list all available stats
+        if self.ds['project']['num_stats']>0:
+            f   = self.ds['stats'].keys()
+
+            for i in range(len(f)):
+                s   = str(f[i])                 # get ith stats name
+                print "Stats name\t:" + s
+                print "Date created\t:" + self.ds['stats'][s]['datetime']
+                print "Environment\t:" + self.ds['stats'][s]['environment']
+                print "Command\t\t:" + self.ds['stats'][s]['cmd'] + "\n"
+        else:
+            print "No stats added to container"            
+
+    # generate figure with given id
+    def make_figure(self, name):
         self.load(self.proj_file)
 
         env = self.ds['figures'][name]['environment']
@@ -63,4 +99,11 @@ class ost:
 
         self.env.execute(env,cmd)
 
+    # generate stats with given id
+    def make_stats(self, name):
+        self.load(self.proj_file)
 
+        env = self.ds['stats'][name]['environment']
+        cmd = self.ds['stats'][name]['cmd']
+
+        self.env.execute(env,cmd)        
