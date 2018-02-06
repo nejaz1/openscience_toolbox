@@ -6,7 +6,7 @@
 # Load required python libraries
 
 class computing_environments:
-    handle_matlab     = []          # point to matlab engine
+    handle_env     = []          # point to matlab engine
 
     # constructor
     def __init__(self):
@@ -15,9 +15,9 @@ class computing_environments:
     # initialize experiment with defaults provided in yaml file
     def init_matlabengine(self):
         # open matlab engine if it has not been instantiated
-        if self.handle_matlab == []:
+        if self.handle_env == []:
             import matlab.engine
-            self.handle_matlab = matlab.engine.start_matlab()
+            self.handle_env = matlab.engine.start_matlab()
 
     # execute the command through the appropriate platform
     def execute(self,env,cmd):
@@ -25,7 +25,7 @@ class computing_environments:
         if env == 'matlab':
             self.init_matlabengine()
             cmd         = cmd[0:-1]
-            handle_env  = self.env_matlab
+            handle_env  = self.handle_env
 
         # build and execute command string
         cmdstr      = "handle_env." + cmd + ", nargout=0)"

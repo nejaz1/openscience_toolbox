@@ -7,7 +7,7 @@
 import json
 import os
 from datetime import datetime
-from ost_platforms import ost_platforms
+from computing_environments import computing_environments
 
 
 class ost:
@@ -17,7 +17,7 @@ class ost:
     # constructor
     def __init__(self):
         """Constructor purposely left empty"""
-        self.platforms = ost_platforms()
+        self.env = computing_environments()
 
     # initialize project repository 
     def init(self, name):
@@ -61,6 +61,6 @@ class ost:
         env = self.ds['figures'][name]['environment']
         cmd = self.ds['figures'][name]['cmd']
 
-        self.platforms.execute(env,cmd)
+        self.env.execute(env,cmd)
 
 
